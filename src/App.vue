@@ -6,14 +6,16 @@
       </div>  
     </Transition>
 
-    <div class="mx-auto my-0 flex min-h-svh max-w-[500px] flex-col gap-4">
+    <div class="mx-auto my-0 flex min-h-svh max-w-[500px] flex-col gap-10">
       <MainBlock />
       <InvitationText />
       <Timer />
-      <Dresscode />
+      <!-- <Dresscode /> -->
       <Timeline />
       <AnswerForm />
+      <Gifts />
       <Map />
+      <AppFooter />
   </div>
   </div>
 </template>
@@ -28,6 +30,8 @@ import Map from './components/Map.vue'
 import Timeline from './components/Timeline.vue'
 import Timer from './components/Timer.vue'
 import HeartIcon from '@/assets/img/icons/heart.svg?component'
+import Gifts from './components/Gifts.vue'
+import AppFooter from './components/ui/AppFooter.vue'
 
 const isMounted = ref(false)
 

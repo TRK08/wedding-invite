@@ -1,49 +1,113 @@
 <template>
-    <div class="answer-form p-4">
-        <div class="container border-2 border-primary px-4 py-8">
-            <h2 class="block-title mb-8">Форма для заполнения</h2>
-            <form class="flex flex-col gap-4" >
-                <AppInput v-model="input" name="Имя" type="text" />
-                <AppSelect v-model="select" :options="selectOptions" placeholder="Предпочтения по еде"  />
-                <div class="answer-form__alcohol">
-                    <label class="mb-4">Предпочтения по алкоголю</label>
-                    <div class="flex flex-col items-start gap-2">
-                        <AppCheckbox v-model="checkboxChecked" label="Вино"/>
-                    <AppCheckbox v-model="checkboxChecked" label="Крепкое"/>
-                    <AppCheckbox v-model="checkboxChecked" label="Безалкогольное"/>
-                    </div>
-                </div>
-                <AppButton >Отправить</AppButton>
-            </form>
-        </div>
+    <div class="answer-form p-4" ref="root">
+        <h2 class="block-title mb-4">Форма для заполнения</h2>
+        <iframe src="https://forms.yandex.ru/cloud/65f6d951c417f30fec60e9bb/?iframe=1" frameborder="0" name="ya-form-65f6d951c417f30fec60e9bb" width="100%" height="100%"></iframe>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import AppInput from './ui/AppInput.vue'
 import AppSelect from './ui/AppSelect.vue'
 import AppButton from './ui/AppButton.vue'
 import AppCheckbox from './ui/AppCheckbox.vue'
+import { onIntersect } from '@/composable/onIntersect'
+import anime, { type AnimeInstance } from 'animejs'
 
 
-const input = ref('')
-const select = ref('')
-const checkboxChecked = ref(false) 
-const selectOptions = [
+const alcoholList = [
     {
         id: 1,
-        name: 'Рыба',
+        name: 'Белое вино',
     },
     {
         id: 2,
-        name: 'Мясо',
+        name: 'Красное вино',
     },
     {
         id: 3,
-        name: 'Вегетарианское',
+        name: 'Виски',
+    },
+    {
+        id: 4,
+        name: 'Коньяк',
+    },
+    {
+        id: 5,
+        name: 'Безалкогольное',
     }
 ]
+const transitions = {
+    fade: {
+    in: {
+      opacity: [0, 1],
+    },
+    out: {
+      opacity: [1, 0],
+    },
+  },
+}
+
+let hasEnteredOnce = false
+
+const _ = {
+    observer: {} as IntersectionObserver,
+    motion: {} as AnimeInstance,
+}
+
+// const root = ref<HTMLElement | null>(null)
+
+// const animeTransition = transitions['fade']['in']
+
+// onMounted(() => {
+//       // init our Observer instance
+//       _.observer = onIntersect(root.value as HTMLElement, onEnter, {
+//         outCallback: onExit,
+//         once: false,
+//         options: {
+//           threshold: 0.2,
+//         },
+//       }) as IntersectionObserver
+
+//       // init our anime object.
+//       _.motion = anime({
+//         targets: root.value,
+//         // by default animejs will run the transition on load.
+//         autoplay: false,
+//         duration: 2500,
+//         easing: 'easeOutExpo',
+//         // here we spread in our custom transition properties
+//         // based on the transition prop provided.
+//         ...animeTransition,
+//       })
+//     })
+
+// onUnmounted(() => {
+//     _.observer.disconnect()
+// })
+
+// const onEnter = () => {
+//     if (hasEnteredOnce) {
+//     // clean up from the exit transition
+//     _.motion.pause() // if the exit transition is currently running, pause it.
+//     _.motion.reverse() // change the direction back to the original
+//     }
+//     _.motion.play() // run the transition
+
+//     if (!hasEnteredOnce) {
+//     // allow exit transitions to run.
+//     hasEnteredOnce = true
+//     }
+// }
+
+// const onExit = () => {
+//     // keeps exit transition from running before the first entrance.
+//     if (hasEnteredOnce) {
+//         _.motion.pause() // if the enter transition is currently running, pause it.
+//         _.motion.reverse() // change the direction of the transition
+//         _.motion.play() // run the new reversed transition.
+//     }
+// }
 </script>
 
 <style lang="scss">

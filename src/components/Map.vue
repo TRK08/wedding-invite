@@ -5,20 +5,17 @@
         <yandex-map
         v-model="map"
         :settings="{
-        location: {
-            center: [30.350765,59.938250],
-            zoom: 12,
-        },
+            location: {
+                center: [30.368765,59.940250],
+                zoom: 12,
+            },
+            behaviors: []
         }"
         width="100%"
         height="250px"
     >
     <yandex-map-default-scheme-layer />
     <yandex-map-default-features-layer />
-
-    <yandex-map-controls :settings="{ position: 'right' }">
-        <yandex-map-zoom-control />
-    </yandex-map-controls>
 
     <template v-for="(point) in points" :key="point.title">
         <yandex-map-default-marker :settings="point"></yandex-map-default-marker>
@@ -33,11 +30,9 @@ import { shallowRef } from 'vue'
 import type { YMap } from '@yandex/ymaps3-types'
 import {
   YandexMap,
-  YandexMapControls,
   YandexMapDefaultFeaturesLayer,
   YandexMapDefaultMarker,
-  YandexMapDefaultSchemeLayer,
-  YandexMapZoomControl
+  YandexMapDefaultSchemeLayer
 } from 'vue-yandex-maps'
 
 //Можно использовать для различных преобразований

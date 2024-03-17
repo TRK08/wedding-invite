@@ -1,31 +1,18 @@
 <template>
-    <div class="timeline">
+    <div class="timeline" ref="timelineRef">
         <div class="container p-2">
             <h2 class="block-title">Таймлайн мероприятия</h2>
             <div class="timeline__wrap">
                 <div ref="progress" class="timeline__progress"></div>
-                <div class="timeline__item">
-                    <HeartIcon class="timeline__icon" />
-                    <div :ref="(el) => timelineItems.push(el)" class="timeline__card">
-                        <span class="timeline__card-time">17:00</span>
-                        <span class="timeline__card-text">Сбор всех желающих в загсе</span>
+                <template v-for="item in timelineItemsList" :key="item.time">
+                    <div class="timeline__item">
+                        <HeartIcon class="timeline__icon" />
+                        <div :ref="(el) => timelineItemsRefs.push(el)" class="timeline__card">
+                            <span class="timeline__card-time">{{ item.time }}</span>
+                            <span class="timeline__card-text" v-html="item.text"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline__item">
-                    <HeartIcon class="timeline__icon" />
-                    <div :ref="(el) => timelineItems.push(el)" class="timeline__card">
-                        <span class="timeline__card-time">17:00</span>
-                        <span class="timeline__card-text">Сбор всех желающих в загсе</span>
-                    </div>
-                </div>
-                <div class="timeline__item">
-                    <HeartIcon class="timeline__icon" />
-                    <div :ref="(el) => timelineItems.push(el)" class="timeline__card">
-                        <span class="timeline__card-time">17:00</span>
-                        <span class="timeline__card-text">Сбор всех желающих в загсе Сбор всех желающих в загсе Сбор всех желающих в загсе</span>
-                    </div>
-                </div>
-            
+                </template>            
             </div>
         </div>
     </div>
@@ -37,24 +24,53 @@ import { onMounted, ref } from 'vue'
 import anime from 'animejs/lib/anime.es.js'
 
 const progress = ref(null)
-const timelineItems = ref<any[]>([])
+const timelineItemsRefs = ref<any[]>([])
+const timelineRef = ref<null | HTMLDivElement>(null)
+
+const timelineItemsList = [
+    {
+        time: '16:45',
+        text: 'Сбор всех желающих в ЗАГСе <br/> ул. Фурштатская 52',
+    }, 
+    {
+        time: '17:00',
+        text: 'Регистрация брака',
+    }, 
+    {
+        time: '18:00',
+        text: 'Начало банкета <br/> наб. Фонтанки 66 (бар Сезоны)',
+    }, 
+    {
+        time: '23:00',
+        text: 'Завершение праздника',
+    }
+]
 
 
 onMounted(() => {
-    anime({
+    const lineAnimation = anime({
         targets: progress.value,
         height: [0, 'calc(100% - 10px)'],
         easing: 'easeInOutQuad',
         duration: 2000,
+        delay: 1000,
+        autoplay: false,
     })
+    
 
-    anime({
-        targets: timelineItems.value,
+    const blocksAnimation =  anime({
+        targets: timelineItemsRefs.value,
         translateX: [200, 0],
         opacity: [0, 1],
         easing: 'easeInOutQuad',
         duration: 750,
-        delay: anime.stagger(100),
+        delay: function(el, i) { return i * 150 },
+        autoplay: false,
+    })
+
+    window.addEventListener('scroll', ()  => {
+        lineAnimation.seek(window.scrollY * 2.95)
+        blocksAnimation.seek(window.scrollY * 1.25)
     })
 })
 

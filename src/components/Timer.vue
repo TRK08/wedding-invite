@@ -1,12 +1,18 @@
 <template>
     <div class="timer p-2">
         <div class="container bg-primary px-4 py-10">
-            <h1 class="text-center text-4xl text-white">{{ days }} : {{ hrs }} : {{ mins }} : {{ secs }}</h1>
+            <h2 class="block-title text-white">До свадьбы осталось</h2>
+            <h3 class="text-center text-4xl text-white">
+                <template v-if="Number(days) > 0">
+                    {{ days }} :
+                </template>
+                {{ hrs }} : {{ mins }} : {{ secs }}</h3>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { getNoun } from '@/utils/utils'
 import { onBeforeMount, ref } from 'vue'
 
 const secs = ref('0')
