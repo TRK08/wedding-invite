@@ -23,7 +23,6 @@ onMounted(() => {
         easing: 'linear',
         duration: 500,
     })
-    console.log('showAnimation', 123)
 
     onIntersect(giftsRef.value as HTMLElement, showAnimation.play, {
         once: true,
